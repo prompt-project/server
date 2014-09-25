@@ -111,6 +111,16 @@ Lists group your friends, so you can share with and view content from specific g
 * `DELETE /lists/<list_id>`: delete a list.
 * `DELETE /lists/<list_id>/<user_id>,<user_id>`: deletes specific users from a list.
 
+Lists are private by default but can be made visible by setting permissions.
+
+### permissions
+
+Although you can always set viewership permissions when you create an object, you can use the `permissions` endpoint to update permissions later.
+
+* `PUT /permissions`: set default permissions for all resources.
+* `PUT /permissions/<resource>`: set default permissions for a specific resource. (supercedes user defaults)
+* `PUT /permissions/<resource>/<id>`: set permissions for a specific object. (supercedes resource defaults)
+
 ### settings
 
 Your account settings.
