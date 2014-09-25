@@ -23,7 +23,7 @@ Otherwise, it will kick up a web server at the default location of <http://local
 
 prompt-server exposes the following API for interacting with the social network.
 
-**N.B.: What follows is an incredible rough draft.**
+**N.B.: What follows is a very rough draft.**
 
 ### auth
 
