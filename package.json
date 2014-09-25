@@ -1,12 +1,12 @@
 {
-  "name": "hapi-ninja",
-  "description": "Boilerplate Hapi server example. Node.js, Hapi, and Swig.",
-  "version": "0.2.1",
-  "author": "Saul Maddox",
+  "name": "prompt-server",
+  "description": "Webserver for the Prompt social network.",
+  "version": "0.0.0",
+  "author": "Diana Thayer <garbados@gmail.com>",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/poeticninja/hapi-ninja.git"
+    "url": "https://github.com/prompt-project/server.git"
   },
   "main": "server.js",
   "engines": {
