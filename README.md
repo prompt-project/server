@@ -79,7 +79,7 @@ TODO: long-polling, streaming
 
 ### posts
 
-Posts are content: text, images, links, documents, video, etc.
+Posts are text, links, etc. -- whatever is on your mind!
 
 * `GET /posts`: lists your posts chronologically.
 * `POST /posts`: create a new post.
@@ -102,6 +102,28 @@ Friendship is a two way street. Marking people as friends allows them to see pos
 * `PUT /friends/<user_id>`: add someone as a friend.
 * `DELETE /friends/<user_id>`: remove someone as a friend.
 
+### events
+
+Organize real-life events using Prompt. Invite your friends, share resources, discuss the event, etc.
+
+* `GET /events`: list your events (that you created or are going to) chronologically.
+* `GET /events/<event_id>`: get details about an event.
+* `POST /events`: create an event.
+* `PUT /events`: update an event.
+* `POST /events/<event_id>/invite`: invite multiple friends by passing their user IDs as a JSON array in the request body.
+* `PUT /events/<event_id>/invite/<user_id>`: invite someone to the event.
+* `DELETE /events`: delete an event.
+
+### upload
+
+Use Prompt to store and share images, files, documents, videos, etc. as BLOBs.
+
+* `GET /uploads`: list your uploaded files, chronologically. Returns only metadata.
+* `GET /uploads/<upload_id>`: return the contents of a given file as the response body.
+* `POST /uploads`: upload a new file.
+* `PUT /uploads/<upload_id>`: edit a given file.
+* `DELETE /uploads/<upload_id>`: delete a given file.
+
 ### lists
 
 Lists group your friends, so you can share with and view content from specific groups in your life.
@@ -109,7 +131,8 @@ Lists group your friends, so you can share with and view content from specific g
 * `GET /lists`: lists your lists.
 * `POST /lists`: creates a new list using the request body.
 * `PUT /lists/<list_id>`: update a list using the request body. Overwrites existing values.
-* `PUT /lists/<list_id>/<user_id>,<user_id>,<user_id>...`: add users to a list.
+* `POST /lists/<list_id>`: add multiple users to the list by passing their user IDs as a JSON array in the request body.
+* `PUT /lists/<list_id>/<user_id>`: add a user to a list.
 * `DELETE /lists/<list_id>`: delete a list.
 * `DELETE /lists/<list_id>/<user_id>,<user_id>`: deletes specific users from a list.
 
