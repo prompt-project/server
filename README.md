@@ -41,6 +41,14 @@ Show your timeline. This includes posts from your friends, and any new messages 
 
 TODO: long-polling, streaming
 
+### notifications
+
+When users interact with you, whether by liking your posts, commenting on them, adding you as a friend, or sending you messages, you'll get them as a notification.
+
+* `GET /notifications`: retrieve your notifications.
+
+TODO: long-polling, streaming
+
 ### block
 
 Block a user from seeing or interacting with your content.
@@ -78,11 +86,10 @@ Posts are content: text, images, links, documents, video, etc.
 
 ### likes
 
-TODO
+That noise or look you make to show someone you're listening, and you care.
 
-### comments
-
-TODO
+* `PUT /likes/<post_id>`: like a post.
+* `DELETE /likes/<post_id>`: unlike a post.
 
 ### friends
 
