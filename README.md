@@ -1,113 +1,123 @@
-Hapi Ninja
-==========
+# prompt-server
 
-Boilerplate Hapi Web and API Server Example
+Webserver for the Prompt social network.
 
-## The Goal:
-Create a base boilerplate example showing how easy it is to get started with Hapi as a web server.
+## Install
 
-## The Stack:
-**Node.js** - Because it's fast, easy to get started, and Javscript is awesome.
-[http://nodejs.org/](http://nodejs.org/)
+We always have Prompt servers up at [TODO](#TODO), but to install your own, just follow these steps:
 
-**Hapi** - A very well designed server framework that is easy to understand, easy to create your own plugins, scales very well, cache options built in, and more.
-[http://spumko.github.io/](http://spumko.github.io/)
+    npm install -g prompt-server
+    prompt-server
 
-**Swig** - It looks like HTML, it's very fast, great for template inheritance, and allows you to use HTML syntax with the server and with front-end client Javascript includes.
-[http://paularmstrong.github.io/swig/](http://paularmstrong.github.io/swig/docs/#browser)
+On first run, the server will try to find the config values it needs in the following places:
 
-**CSS Framework** - None. Choose your own CSS preprocessor and CSS framework.
+* `~/.prompt-serverrc`
+* environment variables
+* stdin, by prompting you
 
-**Gulp** - A task runner for your assets, and can do a lot more. The performance is amazing and it is easy to get started. [http://gulpjs.com/](http://gulpjs.com/)
+If it lacks necessary config values, or any credentials are faulty, prompt-server will quit before it can begin.
 
-### Requirements:
-Install Node.js by using the big install button on the [http://nodejs.org/](http://nodejs.org/) homepage.
+Otherwise, it will kick up a web server at the default location of <http://localhost:3000>.
 
-After Node.js is installed, clone this repo, change `cd` to this directory, and run `npm install`
+## Resources
 
-```bash
-$ git clone https://github.com/poeticninja/hapi-ninja.git
-$ cd hapi-ninja
-$ npm install
-```
+prompt-server exposes the following API for interacting with the social network.
 
-Start the server by running the command:
-```
-$ node server
-```
+**N.B.: What follows is an incredible rough draft.**
 
-To see any changes you can manually just shutdown and restart the node server. This can be a pain so I use Supervisor to watch for file changes and restart the server [https://github.com/isaacs/node-supervisor](https://github.com/isaacs/node-supervisor).
+### auth
 
-To install run:
-```
-$ npm install -g supervisor
-```
+Signup, login, and account deletion.
 
-To use it run:
-```
-$ supervisor -e html,js  server
-```
+* `HEAD /auth`: returns whether the given credentials are valid for login.
+* `POST /auth/signup`: signs up, creating a user for you.
+* `POST /auth/login`: logs in an existing user.
 
-Now all of your server html and js files are being watched and on change the node server gets restarted automatically.
+### timeline
 
-#### Production
-Before going into production you will want to concatenate and minify your assets. This will increase performance for your user. We will use Gulp for this.
+Show your timeline. This includes posts from your friends, and any new messages since you last checked.
 
-To install run:
-```
-npm install -g gulp
-```
+* `GET /timeline`: retrieves your timeline
 
-Now you can run `gulp` from the command line and it will run the tasks in the `gulpfile.js`. The current tasks will minify and optimize your CSS, JS, and Images. If you want more tasks you can go to the Gulp Plugin page. [http://gratimax.github.io/search-gulp-plugins/](http://gratimax.github.io/search-gulp-plugins/)
+TODO: long-polling, streaming
 
-## Plugins
-The Hapi plugins that are being used.
+### block
 
-#### Hapi-Named-Routes
-Added names to the routes. This allows you to have access to the path in the templates just by using the `path.nameofroute` variable. [https://github.com/poeticninja/hapi-named-routes](https://github.com/poeticninja/hapi-named-routes)
+Block a user from seeing or interacting with your content.
 
-#### Hapi-Assets
-Assets are in the `./assets.js` file, and your view layer has access based on the node environment. If you are in `development` (default) you might want to have individual files (js,css). If you are in `production` you would want the assets combined for user performance. [https://github.com/poeticninja/hapi-assets](https://github.com/poeticninja/hapi-assets)
+* `GET /block`: lists users you have blocked.
+* `PUT /block/<user_id>`: block a user.
 
-#### Hapi-Cache Buster
-Client/browser reloads new assets based on package.json version of your application. [https://github.com/poeticninja/hapi-cache-buster](https://github.com/poeticninja/hapi-cache-buster)
+### search
 
-#### Folder Structure
-There are two main folders in the stack. The "**public**" folder for front-end (client side) code, and "**server**" folder for server side code.
+Search for posts, users, and other information:
 
-By having the front-end folder and server side folder be specific, it provides for better consistency when changing projects. This way when you change from a full front-end app (Phonegap), to a front-end and server side app you get to keep the same folder structure. Allowing for better consistency with your stack, projects, and tools.
+* `GET /search`: executes a search.
+* `POST /search`: executes a search, using the request body instead of query parameters.
 
-## Community Projects
+TODO: long-polling, streaming
 
-Projects that use hapi-ninja as a base.
+### messages
 
-- [Hapi Dash](https://github.com/smaxwellstewart/hapi-dash) - Boilerplate Hapi Web and API Server Example, with frontend dashboard.
+Send messages to other users.
 
-## Contributers
+* `GET /messages`: lists messages you've received, chronologically.
+* `GET /messages/sent`: lists your sent messages, chronologically.
+* `POST /messages/<user_id>`: sends a user the request body as a message.
 
-[Saul Maddox](https://github.com/poeticninja),
-You?
+N.B.: Messages cannot be deleted or updated.
 
-## Credits
-Credit goes to all of the open source code that people have made available.
+### posts
 
-#### License
+Posts are content: text, images, links, documents, video, etc.
 
-The MIT License (MIT)
+* `GET /posts`: lists your posts chronologically.
+* `POST /posts`: create a new post.
+* `PUT /posts/<post_id>`: update a post, using the request's message body as the post's new content.
+* `DELETE /posts/<post_id>`: delete a post.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+### likes
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+TODO
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+### comments
+
+TODO
+
+### friends
+
+Friendship is a two way street. Marking people as friends allows them to see posts you list as friends-only, even if they don't list you as a friend.
+
+* `GET /friends`: lists your friends.
+* `POST /friends`: add multiple friends by passing their user IDs as a JSON array in the request body.
+* `PUT /friends/<user_id>`: add someone as a friend.
+* `DELETE /friends/<user_id>`: remove someone as a friend.
+
+### lists
+
+Lists group your friends, so you can share with and view content from specific groups in your life.
+
+* `GET /lists`: lists your lists.
+* `POST /lists`: creates a new list using the request body.
+* `PUT /lists/<list_id>`: update a list using the request body. Overwrites existing values.
+* `PUT /lists/<list_id>/<user_id>,<user_id>,<user_id>...`: add users to a list.
+* `DELETE /lists/<list_id>`: delete a list.
+* `DELETE /lists/<list_id>/<user_id>,<user_id>`: deletes specific users from a list.
+
+### settings
+
+Your account settings.
+
+* `GET /settings`: lists your current settings.
+* `POST /settings`: sets values according to the JSON in the request body. Values not changed go untouched.
+
+## Testing
+
+    git clone https://github.com/prompt-project/server.git prompt-server
+    cd prompt-server
+    npm install
+    npm test
+
+## License
+
+[GPLv3](http://opensource.org/licenses/GPL-3.0)
