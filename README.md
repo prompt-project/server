@@ -75,6 +75,8 @@ Send messages to other users.
 
 N.B.: Messages cannot be deleted or updated.
 
+TODO: long-polling, streaming
+
 ### posts
 
 Posts are content: text, images, links, documents, video, etc.
